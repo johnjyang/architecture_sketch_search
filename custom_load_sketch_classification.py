@@ -90,7 +90,7 @@ def create_image_embeddings_and_labels_df(embeddings_pickle_file_path):
     print(len(train_generator.filenames))
     file_names_list = []
     labels_list = []
-    for file_index in range(0, len(train_generator.filenames), 2):
+    for file_index in range(len(train_generator.filenames)):
         file_name_parts = train_generator.filenames[file_index + 0].split('/')
         file_name = file_name_parts[1][:-4] + '.png'
         file_names_list.append(file_name)
