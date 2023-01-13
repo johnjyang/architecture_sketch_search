@@ -79,7 +79,7 @@ def extract_embeddings_and_file_names_from_txt(txt_storage_dir):
 
         print(f_index)
 
-    pickle.dump(embeddings_list, open('./embeddings_data/embeddings_sketches_customResnet50_fine.pickle', 'wb'))
+    pickle.dump(embeddings_list, open('./embeddings_data/embeddings_sketches_customResnet50.pickle', 'wb'))
 
 
 def create_image_embeddings_and_labels_df(embeddings_pickle_file_path):
@@ -199,15 +199,15 @@ root_dir = 'arch_data_sketches/anime_style'
 sketches_images_filenames_list = get_file_list(root_dir)
 
 # create image embeddings and store to txt (temporary)
-embeddings_storage_dir = 'txt_embeddings_customResnet50_fine'
+embeddings_storage_dir = 'txt_embeddings_customResnet50'
 # this should be commented out most of the time.
-# create_images_embeddings_and_store_to_txt(sketches_images_filenames_list, custom_model, embeddings_storage_dir)
+create_images_embeddings_and_store_to_txt(sketches_images_filenames_list, custom_model, embeddings_storage_dir)
 
 # caking pickle file of filenames and features of each files for future references
-# extract_embeddings_and_file_names_from_txt(embeddings_storage_dir)
+extract_embeddings_and_file_names_from_txt(embeddings_storage_dir)
 
 # getting embeddings and embedded filenames (temporary: txt) from pickle files
-image_embeddings_and_labels_df = create_image_embeddings_and_labels_df('./embeddings_data/embeddings_sketches_customResnet50_fine.pickle')
+image_embeddings_and_labels_df = create_image_embeddings_and_labels_df('./embeddings_data/embeddings_sketches_customResnet50.pickle')
 print(image_embeddings_and_labels_df)
 
 # create annoy tree
