@@ -178,7 +178,10 @@ function selectMode(e, newMode) {
 const activeEvents = {
   "mousedown": undefined,
   "mouseup": undefined,
-  "mousemove": undefined
+  "mousemove": undefined,
+  "touchstart": undefined,
+  "touchend": undefined,
+  "touchmove": undefined
 };
 
 function setMode(e, mode) {
@@ -196,6 +199,14 @@ function setMode(e, mode) {
       activeEvents['mousedown'] = startDraw;
       activeEvents['mouseup'] = endDraw;
       activeEvents['mousemove'] = draw;
+
+      window.addEventListener("touchstart", startDraw);
+      window.addEventListener("touchend", endDraw);
+      window.addEventListener("touchmove", draw);
+
+      activeEvents['touchstart'] = startDraw;
+      activeEvents['touchend'] = endDraw;
+      activeEvents['touchmove'] = draw;
       break;
     case 'path':
       window.addEventListener("mousedown", startPath);
