@@ -2,12 +2,14 @@
 <html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.ico" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Drawing App</title>
+    <title>Orthogonal Search</title>
   </head>
-  <body class="flex flex-col items-center justify-center h-full py-8 px-3 w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto">
-    <canvas id="canvas" class="w-full max-h-full aspect-video border border-black border-solid rounded-sm mb-6"></canvas>
+  <body class="flex flex-col items-center justify-center h-full px-3 w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto">
+    <p class="font-normal mb-5 md:mb-3"><b>Orthogonal</b> - Search architecture moments with a <i>sketch</i>.</p>
+    <canvas id="canvas" class="w-full max-h-full aspect-video border-2 border-grey-100 shadow-sm border-solid rounded-lg mb-5"></canvas>
     <div class="w-full flex flex-row justify-between">
         <div id="colors" class="grid grid-rows-2 grid-cols-4 gap-2 sm:gap justify-self-start">
             <button id="black" class="bg-black setting"></button>
