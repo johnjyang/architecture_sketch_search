@@ -18,10 +18,20 @@ function getMousePos(canvas, evt) {
   var rect = canvas.getBoundingClientRect(), 
     scaleX = canvas.width / rect.width, 
     scaleY = canvas.height / rect.height;
+  
+  if (evt.type == 'touchstart' || evt.type == 'touchmove' || evt.type == 'touchend' || evt.type == 'touchcancel') {
+      var evt = (typeof evt.originalEvent === 'undefined') ? evt : evt.originalEvent;
+      var touch = evt.touches[0] || evt.changedTouches[0];
+      var x_pos = touch.pageX;
+      var y_pos = touch.pageY;
+  } else if (evt.type == 'mousedown' || evt.type == 'mouseup' || evt.type == 'mousemove' || evt.type == 'mouseover'|| evt.type=='mouseout' || evt.type=='mouseenter' || evt.type=='mouseleave') {
+      var x_pos = evt.clientX;
+      var y_pos = evt.clientY;
+  }
 
   return {
-    x: (evt.clientX - rect.left) * scaleX,
-    y: (evt.clientY - rect.top) * scaleY
+    x: (x_pos - rect.left) * scaleX,
+    y: (y_pos - rect.top) * scaleY
   }
 }
 
@@ -192,14 +202,6 @@ function setMode(e, mode) {
 
   switch (mode) {
     case 'pen':
-      window.addEventListener("mousedown", startDraw);
-      window.addEventListener("mouseup", endDraw);
-      window.addEventListener("mousemove", draw);
-
-      activeEvents['mousedown'] = startDraw;
-      activeEvents['mouseup'] = endDraw;
-      activeEvents['mousemove'] = draw;
-
       window.addEventListener("touchstart", startDraw);
       window.addEventListener("touchend", endDraw);
       window.addEventListener("touchmove", draw);
@@ -207,8 +209,22 @@ function setMode(e, mode) {
       activeEvents['touchstart'] = startDraw;
       activeEvents['touchend'] = endDraw;
       activeEvents['touchmove'] = draw;
+
+      window.addEventListener("mousedown", startDraw);
+      window.addEventListener("mouseup", endDraw);
+      window.addEventListener("mousemove", draw);
+
+      activeEvents['mousedown'] = startDraw;
+      activeEvents['mouseup'] = endDraw;
+      activeEvents['mousemove'] = draw;
       break;
     case 'path':
+      window.addEventListener("touchstart", startPath);
+      window.addEventListener("touchend", endPath);
+
+      activeEvents['touchstart'] = startPath;
+      activeEvents['touchend'] = endPath;
+
       window.addEventListener("mousedown", startPath);
       window.addEventListener("mouseup", endPath);
 
@@ -216,6 +232,12 @@ function setMode(e, mode) {
       activeEvents['mouseup'] = endPath;
       break;
     case 'polygon':
+      window.addEventListener("touchstart", startPolygon);
+      window.addEventListener("touchend", endPolygon);
+
+      activeEvents['touchstart'] = startPolygon;
+      activeEvents['touchend'] = endPolygon;
+
       window.addEventListener("mousedown", startPolygon);
       window.addEventListener("mouseup", endPolygon);
 
@@ -223,6 +245,12 @@ function setMode(e, mode) {
       activeEvents['mouseup'] = endPolygon;
       break;
     case 'rect':
+      window.addEventListener("touchstart", startRect);
+      window.addEventListener("touchend", endRect);
+
+      activeEvents['touchstart'] = startRect;
+      activeEvents['touchend'] = endRect;
+
       window.addEventListener("mousedown", startRect);
       window.addEventListener("mouseup", endRect);
 
