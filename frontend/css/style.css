@@ -4,7 +4,7 @@
 
 @layer components {
     .setting {
-      @apply h-8 lg:h-12 aspect-square border-2 border-solid border-black;
+      @apply h-7 md:h-8 lg:h-12 aspect-square border border-solid border-black;
     }
   
     .setting > img {
@@ -12,11 +12,11 @@
     }
   
     .setting.selected {
-        @apply border-4;
+        @apply border-2;
     }
   
     #black.setting.selected {
-      @apply border-4 border-white outline outline-1 outline-black;
+      @apply border-2 border-white outline outline-1 outline-black;
     }
   
     .setting.selected.hide-select {
