@@ -6,20 +6,13 @@
     .setting {
       @apply h-7 md:h-8 lg:h-12 aspect-square border border-solid border-black;
     }
-  
+
     .setting > img {
         @apply h-full w-full;
     }
-  
+
     .setting.selected {
-        @apply border-2;
+      @apply border-2 border-white outline outline-2 outline-black;
     }
-  
-    #black.setting.selected {
-      @apply border-2 border-white outline outline-1 outline-black;
-    }
-  
-    .setting.selected.hide-select {
-      @apply border-2;
-    }
+
   }

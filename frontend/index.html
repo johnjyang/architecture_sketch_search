@@ -19,6 +19,12 @@
             <button class="bg-orange-500 setting"></button>
             <button class="bg-violet-500 setting"></button>
         </div>
+        <div class="py-4 hidden md:flex">
+            <button id="search-button">
+                <div class="bottom-1 border border-gray-500 rounded-lg" />
+                <div class="relative bottom-1 font-lg xl:text-2xl font-thin leading-none tracking-wider py-4 px-12 lx:px-18 bg-white border border-gray-500 rounded-lg transform hover:translate-y-1 transition duration-100 ease-in-out">Search!</div>
+            </button>
+        </div>
         <div id="settings" class="grid grid-rows-2 grid-cols-4 gap-2 sm:gap justify-self-end">
             <button id="small" class="setting size">
                 <img src="./assets/small.svg" alt="small">
@@ -30,10 +36,10 @@
                 <img src="./assets/big.svg" alt="big">
             </button>
             <button id="clear" class="setting">
-              <img src="./assets/clear.svg" alt="clear">
+            <img src="./assets/clear.svg" alt="clear">
             </button>
             <button id="pen" class="setting tool">
-              <img src="./assets/pen.svg" alt="pen">
+            <img src="./assets/pen.svg" alt="pen">
             </button>
             <button id="path" class="setting tool">
                 <img src="./assets/path.svg" alt="path">
@@ -45,6 +51,12 @@
                 <img src="./assets/square.svg" alt="square">
             </button>
         </div>
+    </div>
+    <div class="flex py-8 md:hidden">
+        <button id="search-button">
+            <div class="bottom-1 border border-gray-500 rounded-lg" />
+            <div class="relative bottom-1 text-lg font-thin leading-none tracking-wider py-3 px-12 bg-white border border-gray-500 rounded-lg transform hover:translate-y-1 transition duration-100 ease-in-out">Search!</div>
+        </button>
     </div>
     <script type="module" src="./js/main.js"></script>
 </body>
