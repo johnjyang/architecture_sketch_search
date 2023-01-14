@@ -6,9 +6,15 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Orthogonal Search</title>
+    <!-- Panelbear -->
+    <script async src="https://cdn.panelbear.com/analytics.js?site=CTIl4USpgPF"></script>
+    <script>
+        window.panelbear = window.panelbear || function() { (window.panelbear.q = window.panelbear.q || []).push(arguments); };
+        panelbear('config', { site: 'CTIl4USpgPF' });
+    </script>
   </head>
   <body class="flex flex-col items-center justify-center h-full px-3 w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto">
-    <p class="font-normal text-center mb-1 md:mb-0"><img class="inline object-contain h-5 px-2" src='./assets/favicon.ico'><b>Orthogonal</b> - <b>Search</b> architecture moments with a sketch.</p>
+    <p class="font-normal text-center mt-1 mb-1 md:mb-0"><img class="inline object-contain h-5 px-2" src='./assets/favicon.ico'><b>Orthogonal</b> - <b>Search</b> architecture moments with a sketch.</p>
     <a class="font-light text-xs mb-5 md:mb-3">(or, <u class="underline-offset-1">upload</u> an image file)</a>
     <canvas id="canvas" class="w-full max-h-full aspect-video border-2 border-grey-100 shadow-sm border-solid rounded-lg mb-5 bg-gray-50"></canvas>
     <div class="w-full flex flex-row justify-between">
@@ -24,11 +30,12 @@
             <button id="lime" class="bg-lime-400 setting"></button>
             <button id="cyan" class="bg-cyan-400 setting"></button>
         </div>
-        <div class="py-4 hidden md:flex">
+        <div class="py-4 hidden md:flex flex-col">
             <button id="search-button">
                 <div class="bottom-1 border border-gray-500 rounded-lg" />
                 <div class="relative bottom-1 font-lg xl:text-2xl font-bold leading-none tracking-wider py-4 px-12 lx:px-14 bg-white border border-gray-500 rounded-lg transform hover:translate-y-1 transition duration-100 ease-in-out">Search!</div>
             </button>
+            <p class="flex justify-center text-xs font-thin text-black mt-1.5">a project by John Yang</p>
         </div>
         <div id="settings" class="grid grid-rows-2 grid-cols-4 md:grid-cols-5 gap-1 md:gap-2 justify-self-end">
             <div class="hidden md:flex"></div>
@@ -59,11 +66,12 @@
             </button>
         </div>
     </div>
-    <div class="flex py-8 md:hidden">
+    <div class="flex flex-col py-8 md:hidden">
         <button id="search-button">
             <div class="bottom-1 border bg-grey-200 border-gray-500 rounded-lg" />
             <div class="relative bottom-1 text-lg font-bold leading-none tracking-wider py-3 px-12 bg-white border border-gray-500 rounded-lg transform hover:translate-y-1 transition duration-100 ease-in-out">Search!</div>
         </button>
+        <p class="flex w-full justify-center text-xs font-thin text-black mt-8">a project by John Yang</p>
     </div>
     <script type="module" src="./js/main.js"></script>
 </body>
