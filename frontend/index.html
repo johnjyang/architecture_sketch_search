@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Drawing App</title>
   </head>
-  <body class="flex flex-col items-center justify-center h-full py-8 px-4 w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto">
-    <canvas id="canvas" class="w-full max-h-full aspect-video border border-black border-solid mb-6"></canvas>
+  <body class="flex flex-col items-center justify-center h-full py-8 px-3 w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto">
+    <canvas id="canvas" class="w-full max-h-full aspect-video border border-black border-solid rounded-sm mb-6"></canvas>
     <div class="w-full flex flex-row justify-between">
         <div id="colors" class="grid grid-rows-2 grid-cols-4 gap-2 sm:gap justify-self-start">
             <button id="black" class="bg-black setting"></button>
@@ -22,7 +22,7 @@
         <div class="py-4 hidden md:flex">
             <button id="search-button">
                 <div class="bottom-1 border border-gray-500 rounded-lg" />
-                <div class="relative bottom-1 font-lg xl:text-2xl font-thin leading-none tracking-wider py-4 px-12 lx:px-18 bg-white border border-gray-500 rounded-lg transform hover:translate-y-1 transition duration-100 ease-in-out">Search!</div>
+                <div class="relative bottom-1 font-lg xl:text-2xl font-bold leading-none tracking-wider py-4 px-12 lx:px-14 bg-white border border-gray-500 rounded-lg transform hover:translate-y-1 transition duration-100 ease-in-out">Search!</div>
             </button>
         </div>
         <div id="settings" class="grid grid-rows-2 grid-cols-4 gap-2 sm:gap justify-self-end">
@@ -54,8 +54,8 @@
     </div>
     <div class="flex py-8 md:hidden">
         <button id="search-button">
-            <div class="bottom-1 border border-gray-500 rounded-lg" />
-            <div class="relative bottom-1 text-lg font-thin leading-none tracking-wider py-3 px-12 bg-white border border-gray-500 rounded-lg transform hover:translate-y-1 transition duration-100 ease-in-out">Search!</div>
+            <div class="bottom-1 border bg-grey-200 border-gray-500 rounded-lg" />
+            <div class="relative bottom-1 text-lg font-bold leading-none tracking-wider py-3 px-12 bg-white border border-gray-500 rounded-lg transform hover:translate-y-1 transition duration-100 ease-in-out">Search!</div>
         </button>
     </div>
     <script type="module" src="./js/main.js"></script>

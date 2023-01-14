@@ -4,7 +4,7 @@
 
 @layer components {
     .setting {
-      @apply h-7 md:h-8 lg:h-12 aspect-square border border-solid border-black;
+      @apply h-7 md:h-8 lg:h-12 aspect-square border border-solid border-black rounded-sm;
     }
 
     .setting > img {
