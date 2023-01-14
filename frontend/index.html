@@ -8,18 +8,20 @@
     <title>Orthogonal Search</title>
   </head>
   <body class="flex flex-col items-center justify-center h-full px-3 w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto">
-    <p class="font-normal mb-5 md:mb-3"><b>Orthogonal</b> - Search architecture moments with a <i>sketch</i>.</p>
-    <canvas id="canvas" class="w-full max-h-full aspect-video border-2 border-grey-100 shadow-sm border-solid rounded-lg mb-5"></canvas>
+    <p class="font-normal mb-5 md:mb-3"><b>Orthogonal</b> - <b>Search</b> architecture moments with a sketch.</p>
+    <canvas id="canvas" class="w-full max-h-full aspect-video border-2 border-grey-100 shadow-sm border-solid rounded-lg mb-5 bg-gray-50"></canvas>
     <div class="w-full flex flex-row justify-between">
-        <div id="colors" class="grid grid-rows-2 grid-cols-4 gap-2 sm:gap justify-self-start">
+        <div id="colors" class="grid grid-rows-2 grid-cols-5 gap-1 md:gap-2 sm:gap justify-self-start">
             <button id="black" class="bg-black setting"></button>
-            <button class="bg-red-500 setting"></button>
-            <button class="bg-green-500 setting"></button>
-            <button class="bg-blue-500 setting"></button>
-            <button class="bg-white setting"></button>
-            <button class="bg-yellow-500 setting"></button>
-            <button class="bg-orange-500 setting"></button>
-            <button class="bg-violet-500 setting"></button>
+            <button id="amber" class="bg-amber-900 setting"></button>
+            <button id="neutral" class="bg-neutral-500 setting"></button>
+            <button id="emerald" class="bg-emerald-700 setting"></button>
+            <button id="blue" class="bg-blue-600 setting"></button>
+            <button id="white" class="bg-white setting"></button>
+            <button id="orange" class="bg-orange-600 setting"></button>
+            <button id="gray" class="bg-gray-300 setting"></button>
+            <button id="lime" class="bg-lime-400 setting"></button>
+            <button id="cyan" class="bg-cyan-400 setting"></button>
         </div>
         <div class="py-4 hidden md:flex">
             <button id="search-button">
@@ -27,7 +29,8 @@
                 <div class="relative bottom-1 font-lg xl:text-2xl font-bold leading-none tracking-wider py-4 px-12 lx:px-14 bg-white border border-gray-500 rounded-lg transform hover:translate-y-1 transition duration-100 ease-in-out">Search!</div>
             </button>
         </div>
-        <div id="settings" class="grid grid-rows-2 grid-cols-4 gap-2 sm:gap justify-self-end">
+        <div id="settings" class="grid grid-rows-2 grid-cols-4 md:grid-cols-5 gap-1 md:gap-2 justify-self-end">
+            <div class="hidden md:flex"></div>
             <button id="small" class="setting size">
                 <img src="./assets/small.svg" alt="small">
             </button>
@@ -40,6 +43,7 @@
             <button id="clear" class="setting">
             <img src="./assets/clear.svg" alt="clear">
             </button>
+            <div class="hidden md:flex"></div>
             <button id="pen" class="setting tool">
             <img src="./assets/pen.svg" alt="pen">
             </button>

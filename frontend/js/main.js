@@ -63,7 +63,7 @@ function draw(e) {
 
 const sizes = {
   'small': 5,
-  'medium': 20,
+  'medium': 15,
   'big': 35
 }
 

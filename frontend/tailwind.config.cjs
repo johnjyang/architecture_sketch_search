@@ -5,8 +5,12 @@ module.exports = {
     "./index.html"
   ],
   theme: {
-    extend: {fontFamily: {
+    extend: {
+      fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
+      backgroundImage: {
+        'body': "url('./assets/g_bg.jpg')",
       },
     },
   },
