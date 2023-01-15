@@ -187,9 +187,9 @@ def plot_images(query_image_path, similar_images_paths, hq_dir):
 if __name__ == "__main__":
 
     # some import directories
-    root_dir = 'data/arch_100k_dataset_raw_sketches_public_only'
+    root_dir = 'images_data/arch_100k_dataset_raw_sketches_public_only'
     pickle_dir = 'embeddings_data/embeddings_sketches_Resnet50_public_nodrawings.pickle'
-    high_quality_dir = 'data/arch_100k_dataset_raw_public_only'
+    high_quality_dir = 'images_data/arch_100k_dataset_raw_public_only'
 
     # initialize model
     model = ResNet50(weights='imagenet', include_top=True, input_shape=(224, 224, 3))
