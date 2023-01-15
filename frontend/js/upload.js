@@ -30,11 +30,14 @@ function show_upload_area(){
 
 // --- show sketch area ---
 function show_sketch_area(){
+    var md_width = window.matchMedia("(max-width: 768px)")
     document.getElementById('sketch-button').addEventListener('click', function(e) {
         document.getElementById('canvas').style.display = 'flex';
         document.getElementById('controls').style.display = 'flex';
         document.getElementById('sketch-button').style.display = 'none';
-        document.getElementById('mobile-search').style.display = '@media (min-width: 768px) {flex}';
+        if (md_width.matches) {
+            document.getElementById('mobile-search').style.display = 'flex';
+        };
         document.getElementById('dropzone').style.display = 'none';
         document.getElementById('upload-button').style.display = 'block';
     });
