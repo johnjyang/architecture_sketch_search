@@ -6,10 +6,9 @@ function canvas_to_image(){
     document.getElementById('search-button').addEventListener('click', function(e) {
 
         var ctx = canvas.getContext("2d");
-        // Add behind elements.
-        ctx.globalCompositeOperation = 'destination-over'
-        // Now draw!
-        ctx.fillStyle = "white";
+
+        ctx.globalCompositeOperation = 'destination-over' // Add behind elements.
+        ctx.fillStyle = "#e4e4e7"; // light-gray
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         let canvasUrl = canvas.toDataURL("image/jpeg", 0.5);
