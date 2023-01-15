@@ -19,10 +19,10 @@ from create_sketch.utils import channel2width
 parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=False, type=str, default='anime_style', help='name of this experiment')
 parser.add_argument('--checkpoints_dir', type=str, default='create_sketch/checkpoints', help='Where the model checkpoints are saved')
-parser.add_argument('--results_dir', type=str, default='arch_data_sketches', help='where to save result images')
+parser.add_argument('--results_dir', type=str, default='test_images_sketch', help='where to save result images')
 parser.add_argument('--geom_name', type=str, default='feats2Geom', help='name of the geometry predictor')
 parser.add_argument('--batchSize', type=int, default=1, help='size of the batches')
-parser.add_argument('--dataroot', type=str, default='arch_100k_dataset/public_buildings', help='root directory of the dataset')
+parser.add_argument('--dataroot', type=str, default='test_images', help='root directory of the dataset')
 parser.add_argument('--depthroot', type=str, default='', help='dataset of corresponding ground truth depth maps')
 
 parser.add_argument('--input_nc', type=int, default=3, help='number of channels of input data')
@@ -114,7 +114,7 @@ with torch.no_grad():
 
     ###### Testing######
 
-    full_output_dir = os.path.join(opt.results_dir, opt.name)
+    full_output_dir = opt.results_dir
 
     if not os.path.exists(full_output_dir):
         os.makedirs(full_output_dir)
@@ -130,7 +130,7 @@ with torch.no_grad():
         
         input_image = real_A
         image = net_G(input_image)
-        save_image(image.data, full_output_dir+'/%s_sketch.png' % name)
+        save_image(image.data, full_output_dir+'/%s.png' % name)
 
         if (opt.predict_depth == 1):
 
