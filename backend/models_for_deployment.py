@@ -64,16 +64,13 @@ def extract_embeddings_and_file_names_from_txt(txt_storage_dir, pickle_file_dir,
         elif include_drawings:
             embeddings_list.append(np.loadtxt(embedding_filenames_list_from_txt[f_index]))
 
-        print(f_index)
-
-    print(len(embeddings_list))
     pickle.dump(embeddings_list, open(pickle_file_dir, 'wb'))
 
 
 def create_image_embeddings_and_labels_df(embeddings_pickle_file_path, include_drawings=False):
 
     embeddings_list = pickle.load(open(embeddings_pickle_file_path, 'rb'))
-    initial_file_list = get_file_list('arch_100k_dataset_raw_public_only')
+    initial_file_list = get_file_list('images_data/arch_100k_dataset_raw_public_only')
 
     file_names_list = []
     for f_index in range(len(initial_file_list)):
@@ -89,7 +86,7 @@ def create_image_embeddings_and_labels_df(embeddings_pickle_file_path, include_d
     return image_embeddings_and_labels_df
 
 
-def get_similar_images_df_from_path(image_path, initialized_model, built_annoy_tree, degree_of_nn):
+def get_similar_images_df_from_path(image_path, initialized_model, image_embeddings_and_labels_df, built_annoy_tree, degree_of_nn):
 
     # start = time.time()
     embedded_image_vector = create_single_image_embeddings(image_path, initialized_model)
@@ -101,7 +98,7 @@ def get_similar_images_df_from_path(image_path, initialized_model, built_annoy_t
     return image_embeddings_and_labels_df.iloc[similar_img_ids[1:]]
 
 
-def get_similar_images_df_from_index(image_index, built_annoy_tree, degree_of_nn):
+def get_similar_images_df_from_index(image_index, image_embeddings_and_labels_df, built_annoy_tree, degree_of_nn):
 
     # start = time.time()
 
@@ -126,7 +123,7 @@ def build_annoy_tree(images_df, tree_depth):
     return tree
 
 
-def search_similar_images_by_path(query_image_path, built_annoy_tree, degree_of_nn):
+def search_similar_images_by_path(query_image_path, model, image_embeddings_and_labels_df, built_annoy_tree, degree_of_nn):
 
     def _get_high_quality_images_paths_from_similar_images_df(image_df):
 
@@ -140,7 +137,7 @@ def search_similar_images_by_path(query_image_path, built_annoy_tree, degree_of_
             image_name = image_name_parts[0] + '.jpg'
 
             image_name_parts = image_name.split("/")
-            image_name = image_name_parts[1]
+            image_name = image_name_parts[-1]
             path = image_name
 
             if path not in full_image_paths:
@@ -148,8 +145,8 @@ def search_similar_images_by_path(query_image_path, built_annoy_tree, degree_of_
 
         return full_image_paths
 
-    similar_images_df = get_similar_images_df_from_path(query_image_path, custom_model, built_annoy_tree, degree_of_nn)
-    # print(similar_images_df)
+    similar_images_df = get_similar_images_df_from_path(query_image_path, model, image_embeddings_and_labels_df, built_annoy_tree, degree_of_nn)
+    print(similar_images_df)
     similar_images_paths = _get_high_quality_images_paths_from_similar_images_df(similar_images_df)
 
     return similar_images_paths
@@ -206,4 +203,4 @@ if __name__ == "__main__":
     for image_name in ['chameleon.png', 'light_show.jpg', 'void.jpg', 'truss.png']:
     # for image_name in ['orthogonal_sketch_200.jpg', 'cooper.jpg', 'building_interior.jpg', 'not_circle.jpg', 'overlaying_sq.png']:
         path = 'test_images/' + image_name
-        plot_images(path, search_similar_images_by_path(path, annoy_tree, 30), high_quality_dir)
+        plot_images(path, search_similar_images_by_path(path, custom_model, image_embeddings_and_labels_df, annoy_tree, 30), high_quality_dir)
