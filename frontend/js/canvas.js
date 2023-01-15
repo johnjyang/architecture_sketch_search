@@ -1,13 +1,13 @@
 import '../css/style.css'
 import { colors } from "./colors";
 
-const container = document.getElementById("canvas-container");
 const canvas = document.getElementById("canvas");
 const width = 1920;
 const height = 1080;
 
 // context of the canvas
 const context = canvas.getContext("2d");
+context.globalCompositeOperation = 'destination-in'
 context.imageSmoothingEnabled = true;
 
 // resize canvas (CSS does scale it up or down)
@@ -83,7 +83,7 @@ function selectSize(e) {
   
   if (e === undefined)
   return;
-  
+
   e.target.parentElement.classList.add('selected');
 }
 
@@ -178,8 +178,7 @@ function selectMode(e, newMode) {
     if (newMode === 'rect')
       size.classList.add('hide-select');
   }
-    
-  
+
   e.target.parentElement.classList.add('selected');
 
   mode = newMode;

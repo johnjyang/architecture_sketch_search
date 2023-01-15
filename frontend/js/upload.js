@@ -1,31 +1,35 @@
 // --- save canvas as image ---
-function canvas_to_image(){
+function canvas_to_image() {
 
     var canvas = document.getElementById("canvas");
 
-    document.getElementById('search-button').addEventListener('click', function(e) {
+    document.getElementById('search-button').addEventListener('click', function (e) {
 
-        var ctx = canvas.getContext("2d");
+        var context = canvas.getContext("2d");
 
-        ctx.globalCompositeOperation = 'destination-over' // Add behind elements.
-        ctx.fillStyle = "#e4e4e7"; // light-gray
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        context.globalCompositeOperation = 'destination-over' // Add behind elements.
+        context.fillStyle = "#e5e7eb"; // light-gray
+        context.fillRect(0, 0, canvas.width, canvas.height);
 
         let canvasUrl = canvas.toDataURL("image/jpeg", 0.5);
-        console.log(canvasUrl);
-        
+        // console.log(canvasUrl);
+
+        /*
         const createEl = document.createElement('a');
         createEl.href = canvasUrl;
         createEl.download = "orthogonal_sketch.jpg";
         createEl.click();
         createEl.remove();
+        */
+
+        fetch('http://172.19.106.243:5000/api', { method: 'POST', headers: { "content-type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) });
 
     });
-  }
+}
 
 // --- show upload area ---
-function show_upload_area(){
-    document.getElementById('upload-button').addEventListener('click', function(e) {
+function show_upload_area() {
+    document.getElementById('upload-button').addEventListener('click', function (e) {
         document.getElementById('canvas').style.display = 'none';
         document.getElementById('controls').style.display = 'none';
         document.getElementById('upload-button').style.display = 'none';
@@ -36,9 +40,9 @@ function show_upload_area(){
 }
 
 // --- show sketch area ---
-function show_sketch_area(){
+function show_sketch_area() {
     var md_width = window.matchMedia("(max-width: 768px)")
-    document.getElementById('sketch-button').addEventListener('click', function(e) {
+    document.getElementById('sketch-button').addEventListener('click', function (e) {
         document.getElementById('canvas').style.display = 'flex';
         document.getElementById('controls').style.display = 'flex';
         document.getElementById('sketch-button').style.display = 'none';
