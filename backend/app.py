@@ -16,7 +16,6 @@ app = Flask(__name__)
 cors = CORS(app, resources={r"/api": {"origins": "*"}})
 app.config["CORS_HEADERS"] = "Content-Type"
 
-
 # some import directories
 root_dir = 'images_data/arch_100k_dataset_raw_sketches_public_only'
 pickle_dir = 'embeddings_data/embeddings_sketches_Resnet50_public_nodrawings.pickle'
