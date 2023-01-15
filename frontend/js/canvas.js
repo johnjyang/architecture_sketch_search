@@ -281,24 +281,6 @@ function selectColor(e) {
   e.target.classList.add('selected');
 }
 
-// --- save canvas as image ---
-function canvas_to_image(){
-
-  var canvas = document.getElementById("canvas");
-
-  document.getElementById('search-button').addEventListener('click', function(e) {
-    let canvasUrl = canvas.toDataURL("image/jpeg", 0.5);
-    console.log(canvasUrl);
-  
-    const createEl = document.createElement('a');
-    createEl.href = canvasUrl;
-    createEl.download = "orthogonal_sketch.jpg";
-    createEl.click();
-    createEl.remove();
-
-  });
-}
-
 // --- initialize ---
 function initialize() {
   const colorButtons = document.getElementById('colors').children;
@@ -326,4 +308,3 @@ function initialize() {
 }
 
 initialize();
-canvas_to_image();
