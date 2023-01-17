@@ -17,7 +17,7 @@
     <p class="font-normal text-center mt-1 mb-1 md:mb-0"><img class="inline object-contain h-5 px-2" src='./assets/favicon.ico'><b>Orthogonal</b> - <b>Search</b> architecture moments with a sketch.</p>
     <button id="upload-button" class="font-light text-xs mb-5 md:mb-3 hover:text-red-300">(or, <u class="underline-offset-2">upload</u> an image file)</button>
     <canvas id="canvas" class="w-full max-h-full aspect-video border-2 border-grey-50 shadow-sm border-solid rounded-lg mb-3 bg-gray-50"></canvas>
-    <div id="dropzone" class="hidden flex items-center justify-center w-full max-h-full mt-5 md:mt-6 mb-4 md:mb-2">
+    <form id="dropzone" class="hidden flex items-center justify-center w-full max-h-full mt-5 md:mt-6 mb-4 md:mb-2">
         <label for="dropzone-file" class="flex flex-col items-center justify-center w-full max-h-full aspect-video border-2 border-grey-50 shadow-sm border-solid rounded-lg mb-3 bg-gray-50 cursor-pointer hover:bg-gray-100">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg aria-hidden="true" class="w-10 h-10 mb-3 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
@@ -26,7 +26,7 @@
             </div>
             <input id="dropzone-file" type="file" class="hidden" />
         </label>
-    </div>
+    </form>
     <button id="sketch-button" class="hidden font-light hover:text-sky-400">or, go back to <u class="underline-offset-2">sketch</u></button>
     <div id="controls" class="w-full flex flex-row justify-between">
         <div id="colors" class="grid grid-rows-2 grid-cols-5 gap-1 md:gap-2 sm:gap justify-self-start">
