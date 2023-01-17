@@ -1,3 +1,30 @@
+// --- show upload area ---
+function show_upload_area() {
+    document.getElementById('upload-button').addEventListener('click', function (e) {
+        document.getElementById('canvas').style.display = 'none';
+        document.getElementById('controls').style.display = 'none';
+        document.getElementById('upload-button').style.display = 'none';
+        document.getElementById('mobile-search').style.display = 'none';
+        document.getElementById('dropzone').style.display = 'flex';
+        document.getElementById('sketch-button').style.display = 'block';
+    });
+}
+
+// --- show sketch area ---
+function show_sketch_area() {
+    var md_width = window.matchMedia("(max-width: 768px)")
+    document.getElementById('sketch-button').addEventListener('click', function (e) {
+        document.getElementById('canvas').style.display = 'flex';
+        document.getElementById('controls').style.display = 'flex';
+        document.getElementById('sketch-button').style.display = 'none';
+        if (md_width.matches) {
+            document.getElementById('mobile-search').style.display = 'flex';
+        }
+        document.getElementById('dropzone').style.display = 'none';
+        document.getElementById('upload-button').style.display = 'block';
+    });
+}
+
 // --- save canvas as image ---
 function canvas_to_image() {
 
@@ -22,38 +49,23 @@ function canvas_to_image() {
         createEl.remove();
         */
 
-        fetch('http://172.19.106.243:5000/api', { method: 'POST', headers: { "content-type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) });
+        fetch('http://172.26.238.45:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) });
 
     });
 }
 
-// --- show upload area ---
-function show_upload_area() {
-    document.getElementById('upload-button').addEventListener('click', function (e) {
-        document.getElementById('canvas').style.display = 'none';
-        document.getElementById('controls').style.display = 'none';
-        document.getElementById('upload-button').style.display = 'none';
-        document.getElementById('mobile-search').style.display = 'none';
-        document.getElementById('dropzone').style.display = 'flex';
-        document.getElementById('sketch-button').style.display = 'block';
-    });
+// --- uplaod file ---
+function post_uploaded_file () {
+    document.getElementById("dropzone-file").onchange = function() {
+        var file = document.getElementById('dropzone-file').files[0];
+        let form_data = new FormData()
+        form_data.append("search-image", file);
+        fetch('http://172.26.238.45:5000/upload', { method: 'POST', body: form_data });
+}
 }
 
-// --- show sketch area ---
-function show_sketch_area() {
-    var md_width = window.matchMedia("(max-width: 768px)")
-    document.getElementById('sketch-button').addEventListener('click', function (e) {
-        document.getElementById('canvas').style.display = 'flex';
-        document.getElementById('controls').style.display = 'flex';
-        document.getElementById('sketch-button').style.display = 'none';
-        if (md_width.matches) {
-            document.getElementById('mobile-search').style.display = 'flex';
-        };
-        document.getElementById('dropzone').style.display = 'none';
-        document.getElementById('upload-button').style.display = 'block';
-    });
-}
+show_upload_area();
+show_sketch_area();
 
 canvas_to_image();
-show_upload_area()
-show_sketch_area();
+post_uploaded_file();
