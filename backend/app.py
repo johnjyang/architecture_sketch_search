@@ -13,8 +13,8 @@ from models_for_deployment import create_image_embeddings_and_labels_df, build_a
 ASSETS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api": {"origins": "*"}})
-app.config["CORS_HEADERS"] = "Content-Type"
+cors = CORS(app)
+# app.config["CORS_HEADERS"] = "Content-Type"
 
 # some import directories
 root_dir = 'images_data/arch_100k_dataset_raw_sketches_public_only'
@@ -40,9 +40,9 @@ def encode_image(image_path):
     return encoded_img
 
 
-@app.route("/api", methods=["POST", "GET"])
+@app.route("/sketch", methods=["POST", "GET"])
 @cross_origin(origin="*", headers=["Content-Type", "Authorization"])
-def api():
+def sketch():
 
     search_image_base64 = request.json['search_image']
     search_image_base64 = search_image_base64.split(',')[1]
@@ -65,13 +65,37 @@ def api():
     return jsonify({'result': encoded_imges})
 
 
-@app.route("/admin", methods=["POST", "GET"])
-@cross_origin(origin="*", headers=["Content-Type", "Authorization"])
-def admin():
+@app.route("/upload", methods=["POST", "GET"])
+@cross_origin(origin="*")
+def upload():
 
-    return jsonify(response=response)
+    print('1')
+
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'search-image' not in request.files:
+            print('No file part')
+
+        file = request.files['search-image']
+        print(file)
+        print(file.filename)
+
+        path = os.path.join("search_images/", file.filename)
+        file.save(path)
+
+        similar_images_paths = search_similar_images_by_path(path, custom_model, image_embeddings_and_labels_df, annoy_tree, 30)
+        print(similar_images_paths)
+        plot_images(path, similar_images_paths, high_quality_dir)
+
+        encoded_imges = []
+        for image_path in similar_images_paths:
+            encoded_imges.append(encode_image(os.path.join(high_quality_dir, image_path)))
+
+    data = '0'
+    return jsonify({'result': data})
 
 
 if __name__ == "__main__":
     # app.run(host='0.0.0.0', port=5000, debug=False, ssl_context=('server.crt', 'server.key'))
+    app.debug = True
     app.run(host="0.0.0.0", port=5000, debug=False)
