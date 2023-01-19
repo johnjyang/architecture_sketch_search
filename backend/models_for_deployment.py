@@ -1,5 +1,4 @@
 import os
-# import time
 import pickle
 import numpy as np
 import pandas as pd
@@ -88,30 +87,23 @@ def create_image_embeddings_and_labels_df(embeddings_pickle_file_path, include_d
 
 def get_similar_images_df_from_path(image_path, initialized_model, image_embeddings_and_labels_df, built_annoy_tree, degree_of_nn):
 
-    # start = time.time()
     embedded_image_vector = create_single_image_embeddings(image_path, initialized_model)
 
     similar_img_ids = built_annoy_tree.get_nns_by_vector(embedded_image_vector, degree_of_nn)
-    # end = time.time()
-    # print(f'{(end - start) * 1000} ms')
 
     return image_embeddings_and_labels_df.iloc[similar_img_ids[1:]]
 
 
 def get_similar_images_df_from_index(image_index, image_embeddings_and_labels_df, built_annoy_tree, degree_of_nn):
 
-    # start = time.time()
-
     similar_img_ids = built_annoy_tree.get_nns_by_item(image_index, degree_of_nn)
-    # end = time.time()
-    # print(f'{(end - start) * 1000} ms')
 
     return image_embeddings_and_labels_df.iloc[similar_img_ids[1:]]
 
 
 def build_annoy_tree(images_df, tree_depth):
 
-    # create annoy tree
+    # build annoy tree
     vector_length = len(images_df['img_embs'][0])
     tree = AnnoyIndex(vector_length, metric='euclidean')
 
@@ -199,8 +191,6 @@ if __name__ == "__main__":
     annoy_tree = build_annoy_tree(image_embeddings_and_labels_df, 200)
 
     # find similar images and plot
-    # for s in get_file_list('test_images'):
-    for image_name in ['chameleon.png', 'light_show.jpg', 'void.jpg', 'truss.png']:
-    # for image_name in ['orthogonal_sketch_200.jpg', 'cooper.jpg', 'building_interior.jpg', 'not_circle.jpg', 'overlaying_sq.png']:
-        path = 'test_images/' + image_name
+    for image_name in ['chameleon.png', 'cooper.jpg', 'overlaying_sq.png', 'building_interior.jpg', 'not_circle.jpg']:
+        path = '../test_images/' + image_name
         plot_images(path, search_similar_images_by_path(path, custom_model, image_embeddings_and_labels_df, annoy_tree, 30), high_quality_dir)
