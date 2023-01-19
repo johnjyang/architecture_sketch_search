@@ -1,11 +1,12 @@
 import os
 from PIL import Image, UnidentifiedImageError
 
+
 def get_file_list(root_dir):
 
     file_list = []
     counter = 1
-    extensions = ['.jpg', '.JPG', '.jpeg', '.JPEG', '.png', '.PNG']
+    extensions = [".jpg", ".JPG", ".jpeg", ".JPEG", ".png", ".PNG"]
 
     for root, directories, filenames in os.walk(root_dir):
         for filename in filenames:
@@ -18,7 +19,7 @@ def get_file_list(root_dir):
     return file_list
 
 
-images = get_file_list('arch_100k_dataset_sketches')
+images = get_file_list("arch_100k_dataset_sketches")
 images.reverse()
 
 for path in images:
