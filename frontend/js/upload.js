@@ -49,19 +49,19 @@ function canvas_to_image() {
         createEl.remove();
         */
 
-        fetch('https://172.26.238.45:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) });
+        fetch('http://172.26.229.130:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) });
 
     });
 }
 
 // --- uplaod file ---
-function post_uploaded_file () {
-    document.getElementById("dropzone-file").onchange = function() {
+function post_uploaded_file() {
+    document.getElementById("dropzone-file").onchange = function () {
         var file = document.getElementById('dropzone-file').files[0];
         let form_data = new FormData()
         form_data.append("search-image", file);
-        fetch('https://172.26.238.45:5000/upload', { method: 'POST', body: form_data });
-}
+        fetch('http://172.26.229.130:5000/upload', { method: 'POST', body: form_data });
+    }
 }
 
 show_upload_area();
