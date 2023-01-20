@@ -25,6 +25,8 @@ cors = CORS(app)
 root_dir = "images_data/arch_100k_dataset_raw_sketches_public_only"
 pickle_dir = "embeddings_data/embeddings_sketches_Resnet50_public_nodrawings.pickle"
 high_quality_dir = "images_data/arch_100k_dataset_raw_public_only"
+# labels_dir = "labels.txt"
+labels_dir = None
 
 # initialize model
 model = ResNet50(weights="imagenet", include_top=True, input_shape=(224, 224, 3))
@@ -53,6 +55,8 @@ def encode_image(image_path):
 @cross_origin(origin="*", headers=["Content-Type", "Authorization"])
 def sketch():
 
+    plt.close()
+
     search_image_base64 = request.json["search_image"]
     search_image_base64 = search_image_base64.split(",")[1]
     search_image_decoded = base64.b64decode(str(search_image_base64))
@@ -67,7 +71,7 @@ def sketch():
         path, custom_model, image_embeddings_and_labels_df, annoy_tree, 30
     )
     print(similar_images_paths)
-    plot_images(path, similar_images_paths, high_quality_dir)
+    plot_images(path, similar_images_paths, high_quality_dir, labels_dir)
 
     encoded_imges = []
     for image_path in similar_images_paths:
@@ -79,6 +83,8 @@ def sketch():
 @app.route("/upload", methods=["POST", "GET"])
 @cross_origin(origin="*")
 def upload():
+
+    plt.close()
 
     if request.method == "POST":
         # check if the post request has the file part
@@ -96,7 +102,7 @@ def upload():
             path, custom_model, image_embeddings_and_labels_df, annoy_tree, 30
         )
         print(similar_images_paths)
-        plot_images(path, similar_images_paths, high_quality_dir)
+        plot_images(path, similar_images_paths, high_quality_dir, labels_dir)
 
         encoded_imges = []
         for image_path in similar_images_paths:
@@ -104,8 +110,7 @@ def upload():
                 encode_image(os.path.join(high_quality_dir, image_path))
             )
 
-    data = "0"
-    return jsonify({"result": data})
+    return jsonify({"result": encoded_imges})
 
 
 if __name__ == "__main__":

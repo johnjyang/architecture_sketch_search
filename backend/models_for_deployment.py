@@ -183,9 +183,10 @@ def search_similar_images_by_path(
     return similar_images_paths
 
 
-def plot_images(query_image_path, similar_images_paths, hq_dir, labels_dir):
+def plot_images(query_image_path, similar_images_paths, hq_dir, labels_dir=None):
 
-    labels_list = open(labels_dir, "r").read().split("\n")
+    if labels_dir:
+        labels_list = open(labels_dir, "r").read().split("\n")
 
     def get_architect_name(image_path):
 
@@ -220,7 +221,10 @@ def plot_images(query_image_path, similar_images_paths, hq_dir, labels_dir):
         similar_image = mpimg.imread(similar_image_path)
         plt.subplot(5, 6, i + 2)
         plt.imshow(similar_image)
-        plt.title(get_architect_name(similar_image_path))
+        if labels_dir:
+            plt.title(get_architect_name(similar_image_path))
+        else:
+            plt.title("Similar Image")
         plt.axis("off")
 
     plt.show()
