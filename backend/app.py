@@ -55,7 +55,7 @@ def encode_image(image_path):
 @cross_origin(origin="*", headers=["Content-Type", "Authorization"])
 def sketch():
 
-    plt.close()
+    # plt.close()
 
     search_image_base64 = request.json["search_image"]
     search_image_base64 = search_image_base64.split(",")[1]
@@ -84,7 +84,7 @@ def sketch():
 @cross_origin(origin="*")
 def upload():
 
-    plt.close()
+    # plt.close()
 
     if request.method == "POST":
         # check if the post request has the file part
