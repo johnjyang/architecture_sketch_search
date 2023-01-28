@@ -9,10 +9,10 @@ from keras.models import Model
 from tensorflow.keras.applications.resnet50 import ResNet50
 
 from models_for_deployment import (
-    create_image_embeddings_and_labels_df,
+    create_image_embeddings_and_labels_df_from_organized,
     build_annoy_tree,
     search_similar_images_by_path,
-    plot_images,
+    plot_images_labels,
 )
 
 ASSETS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -23,19 +23,15 @@ cors = CORS(app)
 
 # some import directories
 root_dir = "images_data/arch_100k_dataset_raw_sketches_public_only"
-pickle_dir = "embeddings_data/embeddings_sketches_Resnet50_public_nodrawings.pickle"
-high_quality_dir = "images_data/arch_100k_dataset_raw_public_only"
-# labels_dir = "labels.txt"
-labels_dir = None
+pickle_dir = "embeddings_data/embeddings_sketches_Resnet50_organized_public_only"
+high_quality_dir = "images_data/arch_100k_dataset_organized_public_only"
 
 # initialize model
 model = ResNet50(weights="imagenet", include_top=True, input_shape=(224, 224, 3))
 custom_model = Model(model.inputs, model.layers[-2].output)
 
 # getting embeddings and embedded filenames (temporary: txt) from pickle files
-image_embeddings_and_labels_df = create_image_embeddings_and_labels_df(
-    pickle_dir, include_drawings=False
-)
+image_embeddings_and_labels_df = create_image_embeddings_and_labels_df_from_organized(pickle_dir)
 
 # build annoy tree
 annoy_tree = build_annoy_tree(image_embeddings_and_labels_df, 200)
@@ -68,10 +64,10 @@ def sketch():
         fh.write(search_image_decoded)
 
     similar_images_paths = search_similar_images_by_path(
-        path, custom_model, image_embeddings_and_labels_df, annoy_tree, 30
+        path, custom_model, image_embeddings_and_labels_df, annoy_tree, degree_of_nn=30
     )
     print(similar_images_paths)
-    plot_images(path, similar_images_paths, high_quality_dir, labels_dir)
+    plot_images_labels(path, similar_images_paths, high_quality_dir)
 
     encoded_imges = []
     for image_path in similar_images_paths:
@@ -99,10 +95,10 @@ def upload():
         file.save(path)
 
         similar_images_paths = search_similar_images_by_path(
-            path, custom_model, image_embeddings_and_labels_df, annoy_tree, 30
+            path, custom_model, image_embeddings_and_labels_df, annoy_tree, degree_of_nn=30
         )
         print(similar_images_paths)
-        plot_images(path, similar_images_paths, high_quality_dir, labels_dir)
+        plot_images_labels(path, similar_images_paths, high_quality_dir)
 
         encoded_imges = []
         for image_path in similar_images_paths:

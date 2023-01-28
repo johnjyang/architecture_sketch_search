@@ -18,7 +18,7 @@ from tensorflow.keras.applications.resnet50 import ResNet50
 def get_file_list(root_dir):
 
     file_list = []
-    extensions = [".jpg", ".JPG", ".jpeg", ".JPEG", ".png", ".PNG", ".txt"]
+    extensions = [".jpg", ".JPG", ".jpeg", ".JPEG", ".png", ".PNG", ".txt", ".pickle"]
 
     for root, directories, filenames in os.walk(root_dir):
         for filename in filenames:
@@ -52,47 +52,32 @@ def create_single_image_embeddings(image_path, initialized_model):
     return normalized_features_array
 
 
-def extract_embeddings_and_file_names_from_txt(
-    txt_storage_dir, pickle_file_dir, include_drawings=False
-):
+def create_image_embeddings_and_labels_df_from_organized(organized_embeddings_pickle_file_path):
 
-    embedding_filenames_list_from_txt = get_file_list(txt_storage_dir)  # length = 18918
-    embeddings_list = []
+    organized_embeddings_files_names = get_file_list(organized_embeddings_pickle_file_path)
 
-    for f_index in range(len(embedding_filenames_list_from_txt)):
+    image_embeddings_and_labels_df = pd.DataFrame()
+    for embedding_file_name in organized_embeddings_files_names:
 
-        if not include_drawings:
-            if "Drawings" not in embedding_filenames_list_from_txt[f_index]:
-                embeddings_list.append(
-                    np.loadtxt(embedding_filenames_list_from_txt[f_index])
-                )
-        elif include_drawings:
-            embeddings_list.append(
-                np.loadtxt(embedding_filenames_list_from_txt[f_index])
-            )
+        embeddings_list = pickle.load(open(embedding_file_name, "rb"))
+        label = embedding_file_name.split('_')[-1].split('.')[0] # split by "_", then remove ".pickle"
 
-    pickle.dump(embeddings_list, open(pickle_file_dir, "wb"))
+        images_files_names_with_label = get_file_list(f'''images_data/arch_100k_dataset_organized_public_only/{label}''')
+        length_images_files_names_with_label  = len(images_files_names_with_label)
+        file_label_list = [label for i in range(length_images_files_names_with_label)]
 
+        file_paths_list = []
+        for f_index in range(length_images_files_names_with_label):
+            file_path = (images_files_names_with_label[f_index])
+            file_paths_list.append(file_path)
 
-def create_image_embeddings_and_labels_df(
-    embeddings_pickle_file_path, include_drawings=False
-):
+        images_label_and_embeddings_df = pd.DataFrame(
+            {"img_id": file_paths_list, "labels": file_label_list, "img_embs": embeddings_list}
+        )
 
-    embeddings_list = pickle.load(open(embeddings_pickle_file_path, "rb"))
-    initial_file_list = get_file_list("images_data/arch_100k_dataset_raw_public_only")
+        image_embeddings_and_labels_df = image_embeddings_and_labels_df.append(images_label_and_embeddings_df)
 
-    file_names_list = []
-    for f_index in range(len(initial_file_list)):
-        if not include_drawings:
-            if "Drawings" not in initial_file_list[f_index]:
-                file_names_list.append(initial_file_list[f_index])
-                continue
-        elif include_drawings:
-            file_names_list.append(initial_file_list[f_index])
-
-    image_embeddings_and_labels_df = pd.DataFrame(
-        {"img_id": file_names_list, "img_embs": embeddings_list}
-    )
+    image_embeddings_and_labels_df.reset_index(inplace=True) # reset index
 
     return image_embeddings_and_labels_df
 
@@ -160,8 +145,8 @@ def search_similar_images_by_path(
             image_name = image_name_parts[0] + ".jpg"
 
             image_name_parts = image_name.split("/")
-            image_name = image_name_parts[-1]
-            path = image_name
+            image_name = image_name_parts[-2:]
+            path = '/'.join(image_name)
 
             if path not in full_image_paths:
                 full_image_paths.append(path)
@@ -230,6 +215,41 @@ def plot_images(query_image_path, similar_images_paths, hq_dir, labels_dir=None)
     plt.show()
 
 
+def plot_images_labels(query_image_path, similar_images_paths, hq_dir):
+
+    def get_image_label(image_path):
+        image_path_parts = image_path.split('/')
+        image_label = image_path_parts[0]
+        return image_label
+
+    # plot.
+    plt.figure(figsize=(16, 9))
+    plt.subplot(5, 6, 1)
+    image = mpimg.imread(query_image_path)
+    plt.imshow(image)
+    plt.title("Search Image")
+    plt.axis("off")
+
+    if len(similar_images_paths) > 29:
+        plot_count = 29
+    else:
+        plot_count = len(similar_images_paths)
+
+    for i in range(plot_count):
+
+        similar_image_path = os.path.join(hq_dir, similar_images_paths[i])
+
+        print(similar_image_path)
+
+        similar_image = mpimg.imread(similar_image_path)
+        plt.subplot(5, 6, i + 2)
+        plt.imshow(similar_image)
+        plt.title(get_image_label(similar_images_paths[i]))
+        plt.axis("off")
+
+    plt.show()
+
+
 if __name__ == "__main__":
 
     # some import directories
@@ -243,9 +263,7 @@ if __name__ == "__main__":
     custom_model = Model(model.inputs, model.layers[-2].output)
 
     # getting embeddings and embedded filenames (temporary: txt) from pickle files
-    image_embeddings_and_labels_df = create_image_embeddings_and_labels_df(
-        pickle_dir, include_drawings=False
-    )
+    image_embeddings_and_labels_df = create_image_embeddings_and_labels_df_from_organized(pickle_dir)
 
     # build annoy tree
     annoy_tree = build_annoy_tree(image_embeddings_and_labels_df, 200)
