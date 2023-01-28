@@ -225,6 +225,64 @@ def plot_images(query_image_path, similar_images_paths, hq_dir):
     plt.show()
 
 
+"""
+if __name__ == "__main__":
+
+    labels_list = [
+        "Drawings",
+        "Interior Photography",
+        "Shelving",
+        "Chair",
+        "Kitchen",
+        "Beam",
+        "Stairs",
+        "Facade",
+        "Courtyard",
+        "Deck",
+        "Cityscape",
+        "Waterfront",
+        "Countertop",
+        "Windows",
+        "Steel",
+        "Forest",
+        "Garden",
+        "Exterior Photography",
+        "Column",
+        "Sofa",
+        "Lighting",
+        "Arch",
+        "Glass",
+        "Sink",
+        "Room",
+        "Bathroom",
+        "Brick",
+        "Balcony",
+        "Patio",
+        "Door",
+        "Concrete",
+        "Closet",
+        "Bedroom",
+        "Arcade",
+        "Table",
+        "Wood",
+        "Bed",
+        "Bench",
+        "Shower",
+        "Fence",
+        "Toilet",
+        "Coast",
+        "Photography",
+        "Bathtub",
+    ]
+
+    for label in labels_list:
+        extract_embeddings_and_file_names_from_txt(
+            txt_storage_dir=f'''txt_embeddings/txt_embeddings_Resnet50_public_organized/{label}''',
+            pickle_file_dir=f'''embeddings_data/embeddings_sketches_Resnet50_public_organized/embeddings_sketches_Resnet50_public_organized_{label}.pickle''',
+            include_drawings=True,
+        )
+"""
+
 if __name__ == "__main__":
 
     # some import directories
