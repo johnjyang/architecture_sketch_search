@@ -168,7 +168,7 @@ def search_similar_images_by_path(
     return similar_images_paths
 
 
-def plot_images(query_image_path, similar_images_paths, hq_dir, labels_dir=None):
+def plot_images_architects(query_image_path, similar_images_paths, hq_dir, labels_dir=None):
 
     if labels_dir:
         labels_list = open(labels_dir, "r").read().split("\n")
@@ -256,7 +256,6 @@ if __name__ == "__main__":
     root_dir = "images_data/arch_100k_dataset_raw_sketches_public_only"
     pickle_dir = "embeddings_data/embeddings_sketches_Resnet50_public_nodrawings.pickle"
     high_quality_dir = "images_data/arch_100k_dataset_raw_public_only"
-    labels_dir = "labels.txt"
 
     # initialize model
     model = ResNet50(weights="imagenet", include_top=True, input_shape=(224, 224, 3))
@@ -277,11 +276,10 @@ if __name__ == "__main__":
         "not_circle.jpg",
     ]:
         path = "../test_images/" + image_name
-        plot_images(
+        plot_images_labels(
             path,
             search_similar_images_by_path(
                 path, custom_model, image_embeddings_and_labels_df, annoy_tree, 30
             ),
-            high_quality_dir,
-            labels_dir,
+            high_quality_dir
         )
