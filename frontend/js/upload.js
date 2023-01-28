@@ -49,7 +49,7 @@ function canvas_to_image() {
         createEl.remove();
         */
 
-        fetch('http://172.26.229.130:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) });
+        fetch('http://172.24.10.164:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) });
 
     });
 }
@@ -60,7 +60,7 @@ function post_uploaded_file() {
         var file = document.getElementById('dropzone-file').files[0];
         let form_data = new FormData()
         form_data.append("search-image", file);
-        fetch('http://172.26.229.130:5000/upload', { method: 'POST', body: form_data });
+        fetch('http://172.24.10.164:5000/upload', { method: 'POST', body: form_data });
     }
 }
 
