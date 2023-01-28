@@ -27,6 +27,7 @@ def get_file_list(root_dir):
     return file_list
 
 
+# all key words in labels
 def get_labels(paths_list):
 
     labels_list = ["Living", "Dining", "Interior", "Exterior"]
@@ -77,5 +78,5 @@ architects = get_architect_names(files, labels)
 print(architects)
 print(len(architects))
 
-write_list_to_txt(labels, "labels")
+# write_list_to_txt(labels, "labels")
 # write_list_to_txt(architects, 'architects')
