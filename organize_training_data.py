@@ -6,7 +6,7 @@ def get_file_list(root_dir):
 
     file_list = []
     counter = 1
-    extensions = [".jpg", ".JPG", ".jpeg", ".JPEG", ".png", ".PNG"]
+    extensions = [".jpg", ".JPG", ".jpeg", ".JPEG", ".png", ".PNG", ".txt"]
 
     for root, directories, filenames in os.walk(root_dir):
         for filename in filenames:
@@ -19,6 +19,7 @@ def get_file_list(root_dir):
     return file_list
 
 
+# labels useful for classification
 def organize_files_by_label(root_dir, destination_dir):
 
     file_names = get_file_list(root_dir)
@@ -85,8 +86,6 @@ def organize_files_by_label(root_dir, destination_dir):
         if not os.path.exists(destination_path):
             os.mkdir(destination_path)
         shutil.copy(name, destination_path)
-
-    print(len(labels_list))
 
     return None
 
