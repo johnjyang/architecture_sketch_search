@@ -47,6 +47,8 @@ function canvas_to_image() {
             .then(data => {
 
                 document.getElementById('gallery').classList.remove('hidden');
+                document.getElementById('sketch-interface').classList.remove('mx-auto');
+                document.getElementById('sketch-interface').classList.add('left-0');
 
                 var encoded_images = data.similar_images;
                 var building_names = data.building_names;
@@ -66,9 +68,13 @@ function canvas_to_image() {
                     var building_name_string = building_names[i];
                     var p = document.createElement('p');
                     p.innerHTML = building_name_string;
+                    p.classList.add('px-2');
+                    p.classList.add('py-2.5');
+                    p.classList.add('text-s');
+                    p.classList.add('font-light');
 
                     var div_id = "div_" + i
-                    console.log(div_id)
+
                     var div = document.createElement("div");
 
                     div.appendChild(img);
@@ -76,11 +82,9 @@ function canvas_to_image() {
 
                     div.classList.add('rounded-lg');
                     div.id = div_id
-                    console.log(div)
+
                     container.appendChild(div);
                 }
-
-                document.getElementById('body').classList.remove('h-full');
 
             })
             .catch(error => {
@@ -97,42 +101,53 @@ function post_uploaded_file() {
         let form_data = new FormData()
         form_data.append("search-image", file);
         fetch('http://172.28.169.136:5000/upload', { method: 'POST', body: form_data })
-            .then(response => response.json())
-            .then(data => {
+        .then(response => response.json())
+        .then(data => {
 
-                document.getElementById("gallery-images").innerHTML = "";
+            document.getElementById('gallery').classList.remove('hidden');
+            document.getElementById('sketch-interface').classList.remove('mx-auto');
+            document.getElementById('sketch-interface').classList.add('left-0');
 
-                // Get the list of encoded images
-                var encoded_images = data.similar_images;
+            var encoded_images = data.similar_images;
+            var building_names = data.building_names;
 
-                // Create a container element to hold the images
-                var container = document.getElementById("gallery-images");
+            // Create a container element to hold the images
+            var container = document.getElementById("gallery-images");
 
-                // Iterate through the list of encoded images
-                for (var i = 0; i < encoded_images.length; i++) {
-                    // Create a new img element
-                    var img = document.createElement("img");
+            // Iterate through the list of encoded images
+            for (var i = 0; i < encoded_images.length; i++) {
+                // Create a new img element
+                var img = document.createElement("img");
 
-                    // Set the src of the img element to the base64 encoded image
-                    img.src = "data:image/jpeg;base64," + encoded_images[i];
-                    img.classList.add('rounded-lg');
+                // Set the src of the img element to the base64 encoded image
+                img.src = "data:image/jpeg;base64," + encoded_images[i];
+                img.classList.add('rounded-lg');
 
-                    var div_id = "div_" + i
-                    console.log(div_id)
-                    var div = document.createElement("div");
-                    div.appendChild(img);
-                    div.classList.add('rounded-lg');
-                    div.id = div_id
-                    console.log(div)
-                    container.appendChild(div);
-                }
+                var building_name_string = building_names[i];
+                var p = document.createElement('p');
+                p.innerHTML = building_name_string;
+                p.classList.add('px-2');
+                p.classList.add('py-2.5');
+                p.classList.add('text-s');
+                p.classList.add('font-light');
 
-                document.getElementById('body').classList.remove('h-full');
+                var div_id = "div_" + i
 
-            })
-            .catch(error => {
-                console.error("Error fetching images:", error);
-            });
+                var div = document.createElement("div");
+
+                div.appendChild(img);
+                div.appendChild(p);
+
+                div.classList.add('rounded-lg');
+                div.id = div_id
+
+                container.appendChild(div);
+            }
+
+        })
+        .catch(error => {
+            console.error("Error fetching images:", error);
+        });
     }
 }
 
