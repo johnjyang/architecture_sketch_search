@@ -40,14 +40,19 @@ function canvas_to_image() {
 
         let canvasUrl = canvas.toDataURL("image/jpeg", 0.5);
 
+        document.getElementById("gallery-images").innerHTML = "";
+
         fetch('http://172.28.169.136:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) })
             .then(response => response.json())
             .then(data => {
-                // Get the list of encoded images
+
+                document.getElementById('gallery').classList.remove('hidden');
+
                 var encoded_images = data.similar_images;
+                var building_names = data.building_names;
 
                 // Create a container element to hold the images
-                var container = document.getElementById("gallery-placeholder");
+                var container = document.getElementById("gallery-images");
 
                 // Iterate through the list of encoded images
                 for (var i = 0; i < encoded_images.length; i++) {
@@ -56,12 +61,27 @@ function canvas_to_image() {
 
                     // Set the src of the img element to the base64 encoded image
                     img.src = "data:image/jpeg;base64," + encoded_images[i];
+                    img.classList.add('rounded-lg');
 
-                    // Add the img element to the container
-                    container.appendChild(img);
+                    var building_name_string = building_names[i];
+                    var p = document.createElement('p');
+                    p.innerHTML = building_name_string;
+
+                    var div_id = "div_" + i
+                    console.log(div_id)
+                    var div = document.createElement("div");
+
+                    div.appendChild(img);
+                    div.appendChild(p);
+
+                    div.classList.add('rounded-lg');
+                    div.id = div_id
+                    console.log(div)
+                    container.appendChild(div);
                 }
 
                 document.getElementById('body').classList.remove('h-full');
+
             })
             .catch(error => {
                 console.error("Error fetching images:", error);
@@ -79,11 +99,14 @@ function post_uploaded_file() {
         fetch('http://172.28.169.136:5000/upload', { method: 'POST', body: form_data })
             .then(response => response.json())
             .then(data => {
+
+                document.getElementById("gallery-images").innerHTML = "";
+
                 // Get the list of encoded images
                 var encoded_images = data.similar_images;
 
                 // Create a container element to hold the images
-                var container = document.getElementById("gallery-placeholder");
+                var container = document.getElementById("gallery-images");
 
                 // Iterate through the list of encoded images
                 for (var i = 0; i < encoded_images.length; i++) {
@@ -92,10 +115,19 @@ function post_uploaded_file() {
 
                     // Set the src of the img element to the base64 encoded image
                     img.src = "data:image/jpeg;base64," + encoded_images[i];
+                    img.classList.add('rounded-lg');
 
-                    // Add the img element to the container
-                    container.appendChild(img);
+                    var div_id = "div_" + i
+                    console.log(div_id)
+                    var div = document.createElement("div");
+                    div.appendChild(img);
+                    div.classList.add('rounded-lg');
+                    div.id = div_id
+                    console.log(div)
+                    container.appendChild(div);
                 }
+
+                document.getElementById('body').classList.remove('h-full');
 
             })
             .catch(error => {
