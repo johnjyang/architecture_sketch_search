@@ -67,6 +67,12 @@ function canvas_to_image() {
                     img.classList.add('rounded-md');
 
                     var building_name_string = building_names[i];
+
+                    var arch_daily_link = "http://www.google.com/search?hl=en&q=" + building_name_string + "&btnI=I"
+                    var a = document.createElement('a');
+                    a.setAttribute('target', '_blank');
+                    a.setAttribute('href', arch_daily_link);
+
                     var p = document.createElement('p');
                     p.innerHTML = building_name_string;
                     p.classList.add('px-2');
@@ -75,16 +81,11 @@ function canvas_to_image() {
                     p.classList.add('font-light');
 
                     var div_id = "div_" + i
+                    a.appendChild(img);
+                    a.id = div_id
 
-                    var div = document.createElement("div");
-
-                    div.appendChild(img);
-                    div.appendChild(p);
-
-                    div.classList.add('rounded-md');
-                    div.id = div_id
-
-                    container.appendChild(div);
+                    container.appendChild(a);
+                    container.appendChild(p)
                 }
 
             })
@@ -132,6 +133,12 @@ function post_uploaded_file() {
                 img.classList.add('rounded-md');
 
                 var building_name_string = building_names[i];
+
+                var arch_daily_link = "http://www.google.com/search?hl=en&q=" + building_name_string + "&btnI=I"
+                var a = document.createElement('a');
+                a.setAttribute('target', '_blank');
+                a.setAttribute('href', arch_daily_link);
+
                 var p = document.createElement('p');
                 p.innerHTML = building_name_string;
                 p.classList.add('px-2');
@@ -140,16 +147,11 @@ function post_uploaded_file() {
                 p.classList.add('font-light');
 
                 var div_id = "div_" + i
+                a.appendChild(img);
+                a.id = div_id
 
-                var div = document.createElement("div");
-
-                div.appendChild(img);
-                div.appendChild(p);
-
-                div.classList.add('rounded-md');
-                div.id = div_id
-
-                container.appendChild(div);
+                container.appendChild(a);
+                container.appendChild(p)
             }
 
         })
