@@ -50,7 +50,29 @@ def create_single_image_embeddings(image_path, initialized_model):
     return normalized_features_array
 
 
-def create_image_embeddings_and_labels_df_from_organized(organized_embeddings_pickle_file_path):
+def create_image_embeddings_and_labels_df_from_organized(organized_embeddings_pickle_file_path, include_drawings=False):
+
+    def _get_building_names_from_images_df(image_df):
+
+        labels_list = open('labels.txt', "r").read().split("\n")
+
+        image_paths_list = image_df["img_id"].to_list()
+        building_names_list = []
+
+        for i in range(len(image_paths_list)):
+
+            name = image_paths_list[i].split("/")[-1]
+
+            name_parts = name.split(" ")[:-1]
+
+            for i in range(len(name_parts)):
+                if name_parts[-1] in labels_list:
+                    name_parts.pop()
+
+            building_name = " ".join(name_parts)
+            building_names_list.append(building_name)
+
+        return building_names_list
 
     organized_embeddings_files_names = get_file_list(organized_embeddings_pickle_file_path)
 
@@ -59,6 +81,9 @@ def create_image_embeddings_and_labels_df_from_organized(organized_embeddings_pi
 
         embeddings_list = pickle.load(open(embedding_file_name, "rb"))
         label = embedding_file_name.split('_')[-1].split('.')[0] # split by "_", then remove ".pickle"
+
+        if not include_drawings and label == "Drawings":
+            continue
 
         images_files_names_with_label = get_file_list(f'''images_data/arch_100k_dataset_organized_public_only/{label}''')
         length_images_files_names_with_label  = len(images_files_names_with_label)
@@ -75,7 +100,10 @@ def create_image_embeddings_and_labels_df_from_organized(organized_embeddings_pi
 
         image_embeddings_and_labels_df = image_embeddings_and_labels_df.append(images_label_and_embeddings_df)
 
-    image_embeddings_and_labels_df.reset_index(inplace=True) # reset index
+    image_embeddings_and_labels_df.reset_index(drop=True, inplace=True) # reset index
+
+    building_names = _get_building_names_from_images_df(image_embeddings_and_labels_df)
+    image_embeddings_and_labels_df['building_names'] = building_names
 
     return image_embeddings_and_labels_df
 
@@ -131,13 +159,13 @@ def search_similar_images_by_path(
 ):
     def _get_high_quality_images_paths_from_similar_images_df(image_df):
 
-        image_list = image_df["img_id"].to_list()
+        image_paths_list = image_df["img_id"].to_list()
 
         full_image_paths = []
 
-        for i in range(len(image_list)):
+        for i in range(len(image_paths_list)):
 
-            image_name_parts = image_list[i].split(
+            image_name_parts = image_paths_list[i].split(
                 "."
             )  # remove .png tail (from sketch output)
             image_name = image_name_parts[0] + ".jpg"
@@ -159,11 +187,12 @@ def search_similar_images_by_path(
         degree_of_nn,
     )
     print(similar_images_df)
-    similar_images_paths = _get_high_quality_images_paths_from_similar_images_df(
+    high_quality_paths = _get_high_quality_images_paths_from_similar_images_df(
         similar_images_df
     )
+    similar_images_df['hq_image_paths'] = high_quality_paths
 
-    return similar_images_paths
+    return similar_images_df
 
 
 def plot_images_architects(query_image_path, similar_images_paths, hq_dir, labels_dir=None):
