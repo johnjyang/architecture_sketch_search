@@ -15,8 +15,8 @@
   </head>
   <body id="body" class="flex items-center px-2.5 h-full 2xl:flex-row">
     <div id="sketch-interface" class="flex-col justify-center mx-auto lg:w-4/5 xl:w-3/4 2xl:w-2/3">
-        <p class="font-normal text-center mt-1 mb-1 md:mb-0"><img class="inline object-contain h-5 px-2" src='./assets/favicon.ico'><b>Orthogonal</b> - <b>Search</b> architecture moments with a sketch.</p>
-        <button id="upload-button" class="font-light text-xs w-full pb-3 hover:text-red-300">(or, <u class="underline-offset-2">upload</u> an image file)</button>
+        <p class="font-normal text-center mb-1 md:mb-0"><img class="inline object-contain h-5 px-2" src='./assets/favicon.ico'><b>Orthogonal</b> - <b>Search</b> architecture moments with a sketch.</p>
+        <button id="upload-button" class="font-light text-xs w-full mb-2.5 hover:text-red-300">(or, <u class="underline-offset-2">upload</u> an image file)</button>
         <canvas id="canvas" class="w-full max-h-full border-2 border-grey-50 shadow-sm border-solid rounded-lg mb-3 bg-gray-50"></canvas>
         <form id="dropzone" class="hidden flex items-center justify-center place-self-center max-h-full mt-5 md:mt-6 mb-4 md:mb-2">
             <label for="dropzone-file" class="flex flex-col items-center justify-center w-full max-h-full aspect-video border-2 border-grey-50 shadow-sm border-solid rounded-lg mb-3 bg-gray-50 cursor-pointer hover:bg-gray-100">
@@ -28,9 +28,9 @@
                 <input id="dropzone-file" type="file" class="hidden" />
             </label>
         </form>
-        <img id="uploaded-image" class="hidden mx-auto mh-auto w-2/3 py-6"></img>
+        <img id="uploaded-image" class="hidden mx-auto max-h-[90vh] w-2/3 py-6 rounded-sm"></img>
         <button id="sketch-button" class="hidden w-full font-light hover:text-sky-400">or, go back to <u class="underline-offset-2">sketch</u></button>
-        <div id="controls" class="w-full flex flex-row justify-between">
+        <div id="controls" class="w-full flex flex-row justify-between px-2.5">
             <div id="colors" class="grid grid-rows-2 grid-cols-5 gap-1 md:gap-2 sm:gap justify-self-start">
                 <button id="black" class="bg-black setting"></button>
                 <button id="amber" class="bg-amber-900 setting"></button>
@@ -86,8 +86,8 @@
         </div>
     </div>
     </div>
-    <div id="gallery" class="hidden w-1/3 px-4 py-4 right-0 h-full place-self-end overflow-y-auto">
-        <div id="gallery-images" class="grid grid-cols-1 gap-y-2 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div id="gallery" class="hidden w-1/3 ml-3 pl-3 pr-2 py-4 right-0 h-full place-self-end overflow-y-scroll border-1 border-grey-50 shadow-xl">
+        <div id="gallery-images" class="grid grid-cols-1 gap-y-2 gap-x-2 grid-cols-2">
         </div>
     </div>
     <script type="module" src="./js/canvas.js"></script>

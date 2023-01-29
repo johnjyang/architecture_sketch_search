@@ -64,14 +64,14 @@ function canvas_to_image() {
 
                     // Set the src of the img element to the base64 encoded image
                     img.src = "data:image/jpeg;base64," + encoded_images[i];
-                    img.classList.add('rounded-lg');
+                    img.classList.add('rounded-md');
 
                     var building_name_string = building_names[i];
                     var p = document.createElement('p');
                     p.innerHTML = building_name_string;
                     p.classList.add('px-2');
                     p.classList.add('py-2.5');
-                    p.classList.add('text-s');
+                    p.classList.add('text-base');
                     p.classList.add('font-light');
 
                     var div_id = "div_" + i
@@ -81,7 +81,7 @@ function canvas_to_image() {
                     div.appendChild(img);
                     div.appendChild(p);
 
-                    div.classList.add('rounded-lg');
+                    div.classList.add('rounded-md');
                     div.id = div_id
 
                     container.appendChild(div);
@@ -129,14 +129,14 @@ function post_uploaded_file() {
 
                 // Set the src of the img element to the base64 encoded image
                 img.src = "data:image/jpeg;base64," + encoded_images[i];
-                img.classList.add('rounded-lg');
+                img.classList.add('rounded-md');
 
                 var building_name_string = building_names[i];
                 var p = document.createElement('p');
                 p.innerHTML = building_name_string;
                 p.classList.add('px-2');
                 p.classList.add('py-2.5');
-                p.classList.add('text-s');
+                p.classList.add('text-base');
                 p.classList.add('font-light');
 
                 var div_id = "div_" + i
@@ -146,7 +146,7 @@ function post_uploaded_file() {
                 div.appendChild(img);
                 div.appendChild(p);
 
-                div.classList.add('rounded-lg');
+                div.classList.add('rounded-md');
                 div.id = div_id
 
                 container.appendChild(div);
