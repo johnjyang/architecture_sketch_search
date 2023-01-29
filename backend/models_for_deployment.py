@@ -50,7 +50,7 @@ def create_single_image_embeddings(image_path, initialized_model):
     return normalized_features_array
 
 
-def create_image_embeddings_and_labels_df_from_organized(organized_embeddings_pickle_file_path):
+def create_image_embeddings_and_labels_df_from_organized(organized_embeddings_pickle_file_path, include_drawings=False):
 
     organized_embeddings_files_names = get_file_list(organized_embeddings_pickle_file_path)
 
@@ -59,6 +59,9 @@ def create_image_embeddings_and_labels_df_from_organized(organized_embeddings_pi
 
         embeddings_list = pickle.load(open(embedding_file_name, "rb"))
         label = embedding_file_name.split('_')[-1].split('.')[0] # split by "_", then remove ".pickle"
+
+        if not include_drawings and label == "Drawings":
+            continue
 
         images_files_names_with_label = get_file_list(f'''images_data/arch_100k_dataset_organized_public_only/{label}''')
         length_images_files_names_with_label  = len(images_files_names_with_label)
