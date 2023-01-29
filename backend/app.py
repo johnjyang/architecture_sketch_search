@@ -31,7 +31,9 @@ model = ResNet50(weights="imagenet", include_top=True, input_shape=(224, 224, 3)
 custom_model = Model(model.inputs, model.layers[-2].output)
 
 # getting embeddings and embedded filenames (temporary: txt) from pickle files
-image_embeddings_and_labels_df = create_image_embeddings_and_labels_df_from_organized(pickle_dir)
+image_embeddings_and_labels_df = create_image_embeddings_and_labels_df_from_organized(
+    pickle_dir, include_drawings=False
+)
 
 # build annoy tree
 annoy_tree = build_annoy_tree(image_embeddings_and_labels_df, 200)
@@ -40,7 +42,7 @@ annoy_tree = build_annoy_tree(image_embeddings_and_labels_df, 200)
 def encode_image(image_path):
     pil_img = Image.open(image_path, mode="r")  # reads the PIL image
     byte_arr = io.BytesIO()
-    pil_img.save(byte_arr, format="PNG")  # convert the PIL image to byte array
+    pil_img.save(byte_arr, format="JPEG")  # convert the PIL image to byte array
     encoded_img = base64.encodebytes(byte_arr.getvalue()).decode(
         "ascii"
     )  # encode as base64
@@ -61,19 +63,21 @@ def sketch():
     with open(path, "wb") as fh:
         fh.write(search_image_decoded)
 
-    similar_images_paths = search_similar_images_by_path(
-        path, custom_model, image_embeddings_and_labels_df, annoy_tree, degree_of_nn=30
+    similar_images_df = search_similar_images_by_path(
+        path, custom_model, image_embeddings_and_labels_df, annoy_tree, degree_of_nn=48
     )
-    print(similar_images_paths)
+    print(similar_images_df)
     # plot_images_labels(path, similar_images_paths, high_quality_dir)
 
     encoded_images = []
-    for image_path in similar_images_paths:
+    for image_path in similar_images_df['hq_image_paths']:
         encoded_images.append(encode_image(os.path.join(high_quality_dir, image_path)))
 
-    print(encode_image)
+    building_names = similar_images_df['building_names'].to_list()
+    print(building_names)
+    response = {"building_names": building_names, "similar_images": encoded_images}
 
-    return jsonify({"result": encoded_images})
+    return jsonify(response)
 
 
 @app.route("/upload", methods=["POST", "GET"])
@@ -92,21 +96,27 @@ def upload():
         path = os.path.join("search_images/", file.filename)
         file.save(path)
 
-        similar_images_paths = search_similar_images_by_path(
-            path, custom_model, image_embeddings_and_labels_df, annoy_tree, degree_of_nn=30
+        similar_images_df = search_similar_images_by_path(
+            path,
+            custom_model,
+            image_embeddings_and_labels_df,
+            annoy_tree,
+            degree_of_nn=48,
         )
-        print(similar_images_paths)
+        print(similar_images_df)
         # plot_images_labels(path, similar_images_paths, high_quality_dir)
 
         encoded_images = []
-        for image_path in similar_images_paths:
+        for image_path in similar_images_df['hq_image_paths']:
             encoded_images.append(
                 encode_image(os.path.join(high_quality_dir, image_path))
             )
 
-    print(encode_image)
+    building_names = similar_images_df['building_names'].to_list()
+    print(building_names)
+    response = {"building_names": building_names, "similar_images": encoded_images}
 
-    return jsonify({"result": encoded_images})
+    return jsonify(response)
 
 
 if __name__ == "__main__":
