@@ -51,8 +51,6 @@ def encode_image(image_path):
 @cross_origin(origin="*", headers=["Content-Type", "Authorization"])
 def sketch():
 
-    # plt.close()
-
     search_image_base64 = request.json["search_image"]
     search_image_base64 = search_image_base64.split(",")[1]
     search_image_decoded = base64.b64decode(str(search_image_base64))
@@ -67,20 +65,20 @@ def sketch():
         path, custom_model, image_embeddings_and_labels_df, annoy_tree, degree_of_nn=30
     )
     print(similar_images_paths)
-    plot_images_labels(path, similar_images_paths, high_quality_dir)
+    # plot_images_labels(path, similar_images_paths, high_quality_dir)
 
-    encoded_imges = []
+    encoded_images = []
     for image_path in similar_images_paths:
-        encoded_imges.append(encode_image(os.path.join(high_quality_dir, image_path)))
+        encoded_images.append(encode_image(os.path.join(high_quality_dir, image_path)))
 
-    return jsonify({"result": encoded_imges})
+    print(encode_image)
+
+    return jsonify({"result": encoded_images})
 
 
 @app.route("/upload", methods=["POST", "GET"])
 @cross_origin(origin="*")
 def upload():
-
-    # plt.close()
 
     if request.method == "POST":
         # check if the post request has the file part
@@ -98,15 +96,17 @@ def upload():
             path, custom_model, image_embeddings_and_labels_df, annoy_tree, degree_of_nn=30
         )
         print(similar_images_paths)
-        plot_images_labels(path, similar_images_paths, high_quality_dir)
+        # plot_images_labels(path, similar_images_paths, high_quality_dir)
 
-        encoded_imges = []
+        encoded_images = []
         for image_path in similar_images_paths:
-            encoded_imges.append(
+            encoded_images.append(
                 encode_image(os.path.join(high_quality_dir, image_path))
             )
 
-    return jsonify({"result": encoded_imges})
+    print(encode_image)
+
+    return jsonify({"result": encoded_images})
 
 
 if __name__ == "__main__":

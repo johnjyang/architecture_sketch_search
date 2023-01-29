@@ -5,13 +5,11 @@ import pandas as pd
 from numpy.linalg import norm
 from tqdm import tqdm
 from keras.models import Model
-from tensorflow.keras.applications.resnet50 import preprocess_input
+from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
 import keras.utils as image
 from annoy import AnnoyIndex
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-
-from tensorflow.keras.applications.resnet50 import ResNet50
 
 
 # find Images in the Root Directiry and making list of those Images
