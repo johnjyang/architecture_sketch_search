@@ -28,7 +28,8 @@
                 <input id="dropzone-file" type="file" class="hidden" />
             </label>
         </form>
-        <button id="sketch-button" class="hidden mx-auto font-light hover:text-sky-400">or, go back to <u class="underline-offset-2">sketch</u></button>
+        <img id="uploaded-image" class="hidden mx-auto mh-auto w-2/3 py-6"></img>
+        <button id="sketch-button" class="hidden w-full font-light hover:text-sky-400">or, go back to <u class="underline-offset-2">sketch</u></button>
         <div id="controls" class="w-full flex flex-row justify-between">
             <div id="colors" class="grid grid-rows-2 grid-cols-5 gap-1 md:gap-2 sm:gap justify-self-start">
                 <button id="black" class="bg-black setting"></button>
@@ -85,7 +86,7 @@
         </div>
     </div>
     </div>
-    <div id="gallery" class="hidden w-1/3 px-4 py-4 right-0 h-full place-self-end overflow-auto">
+    <div id="gallery" class="hidden w-1/3 px-4 py-4 right-0 h-full place-self-end overflow-y-auto">
         <div id="gallery-images" class="grid grid-cols-1 gap-y-2 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         </div>
     </div>

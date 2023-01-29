@@ -1,12 +1,12 @@
 // --- show upload area ---
 function show_upload_area() {
     document.getElementById('upload-button').addEventListener('click', function (e) {
-        document.getElementById('canvas').style.display = 'none';
-        document.getElementById('controls').style.display = 'none';
-        document.getElementById('upload-button').style.display = 'none';
-        document.getElementById('mobile-search').style.display = 'none';
-        document.getElementById('dropzone').style.display = 'flex';
-        document.getElementById('sketch-button').style.display = 'block';
+        document.getElementById('canvas').classList.add('hidden');
+        document.getElementById('controls').classList.add('hidden');
+        document.getElementById('upload-button').classList.add('hidden');
+        document.getElementById('mobile-search').classList.add('hidden');
+        document.getElementById('dropzone').classList.remove('hidden');
+        document.getElementById('sketch-button').classList.remove('hidden');
     });
 }
 
@@ -14,14 +14,15 @@ function show_upload_area() {
 function show_sketch_area() {
     var md_width = window.matchMedia("(max-width: 768px)")
     document.getElementById('sketch-button').addEventListener('click', function (e) {
-        document.getElementById('canvas').style.display = 'flex';
-        document.getElementById('controls').style.display = 'flex';
-        document.getElementById('sketch-button').style.display = 'none';
+        document.getElementById('canvas').classList.remove('hidden');
+        document.getElementById('controls').classList.remove('hidden');
+        document.getElementById('sketch-button').classList.add('hidden');
         if (md_width.matches) {
-            document.getElementById('mobile-search').style.display = 'flex';
+            document.getElementById('mobile-search').classList.remove('hidden');
         }
-        document.getElementById('dropzone').style.display = 'none';
-        document.getElementById('upload-button').style.display = 'block';
+        document.getElementById('dropzone').classList.add('hidden');
+        document.getElementById('uploaded-image').classList.add('hidden');
+        document.getElementById('upload-button').classList.remove('hidden');
     });
 }
 
@@ -97,12 +98,19 @@ function canvas_to_image() {
 // --- uplaod file ---
 function post_uploaded_file() {
     document.getElementById("dropzone-file").onchange = async function (e) {
-        var file = document.getElementById('dropzone-file').files[0];
+        var search_image_file = document.getElementById('dropzone-file').files[0];
         let form_data = new FormData()
-        form_data.append("search-image", file);
+        form_data.append("search-image", search_image_file);
+
+        document.getElementById("gallery-images").innerHTML = "";
+
         fetch('http://172.28.169.136:5000/upload', { method: 'POST', body: form_data })
         .then(response => response.json())
         .then(data => {
+
+            document.getElementById('dropzone').classList.add('hidden');
+            document.getElementById('uploaded-image').src = URL.createObjectURL(search_image_file);
+            document.getElementById('uploaded-image').classList.remove('hidden');
 
             document.getElementById('gallery').classList.remove('hidden');
             document.getElementById('sketch-interface').classList.remove('mx-auto');
