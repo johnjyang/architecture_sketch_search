@@ -30,7 +30,7 @@ function canvas_to_image() {
 
     var canvas = document.getElementById("canvas");
 
-    document.getElementById('search-button').addEventListener('click', function (e) {
+    document.getElementById('search-button').addEventListener('click', function () {
 
         var context = canvas.getContext("2d");
 
@@ -39,28 +39,68 @@ function canvas_to_image() {
         context.fillRect(0, 0, canvas.width, canvas.height);
 
         let canvasUrl = canvas.toDataURL("image/jpeg", 0.5);
-        // console.log(canvasUrl);
 
-        /*
-        const createEl = document.createElement('a');
-        createEl.href = canvasUrl;
-        createEl.download = "orthogonal_sketch.jpg";
-        createEl.click();
-        createEl.remove();
-        */
+        fetch('http://172.28.169.136:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) })
+            .then(response => response.json())
+            .then(data => {
+                // Get the list of encoded images
+                var encoded_images = data.similar_images;
 
-        fetch('http://172.24.10.164:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) });
+                // Create a container element to hold the images
+                var container = document.getElementById("gallery-placeholder");
+
+                // Iterate through the list of encoded images
+                for (var i = 0; i < encoded_images.length; i++) {
+                    // Create a new img element
+                    var img = document.createElement("img");
+
+                    // Set the src of the img element to the base64 encoded image
+                    img.src = "data:image/jpeg;base64," + encoded_images[i];
+
+                    // Add the img element to the container
+                    container.appendChild(img);
+                }
+
+                document.getElementById('body').classList.remove('h-full');
+            })
+            .catch(error => {
+                console.error("Error fetching images:", error);
+            });
 
     });
 }
 
 // --- uplaod file ---
 function post_uploaded_file() {
-    document.getElementById("dropzone-file").onchange = function () {
+    document.getElementById("dropzone-file").onchange = async function (e) {
         var file = document.getElementById('dropzone-file').files[0];
         let form_data = new FormData()
         form_data.append("search-image", file);
-        fetch('http://172.24.10.164:5000/upload', { method: 'POST', body: form_data });
+        fetch('http://172.28.169.136:5000/upload', { method: 'POST', body: form_data })
+            .then(response => response.json())
+            .then(data => {
+                // Get the list of encoded images
+                var encoded_images = data.similar_images;
+
+                // Create a container element to hold the images
+                var container = document.getElementById("gallery-placeholder");
+
+                // Iterate through the list of encoded images
+                for (var i = 0; i < encoded_images.length; i++) {
+                    // Create a new img element
+                    var img = document.createElement("img");
+
+                    // Set the src of the img element to the base64 encoded image
+                    img.src = "data:image/jpeg;base64," + encoded_images[i];
+
+                    // Add the img element to the container
+                    container.appendChild(img);
+                }
+
+            })
+            .catch(error => {
+                console.error("Error fetching images:", error);
+            });
     }
 }
 
