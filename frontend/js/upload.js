@@ -43,7 +43,7 @@ function canvas_to_image() {
 
         document.getElementById("gallery-images").innerHTML = "";
 
-        fetch('http://172.28.169.136:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) })
+        fetch('http://172.28.173.218:5000/sketch', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ search_image: canvasUrl }) })
             .then(response => response.json())
             .then(data => {
 
@@ -105,7 +105,7 @@ function post_uploaded_file() {
 
         document.getElementById("gallery-images").innerHTML = "";
 
-        fetch('http://172.28.169.136:5000/upload', { method: 'POST', body: form_data })
+        fetch('http://172.28.173.218:5000/upload', { method: 'POST', body: form_data })
         .then(response => response.json())
         .then(data => {
 
